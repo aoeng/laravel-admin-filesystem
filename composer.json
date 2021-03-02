@@ -1,0 +1,42 @@
+{
+    "name": "aoeng/laravel-admin-filesystem",
+    "description": "filesystem oss for laravel admin",
+    "type": "library",
+    "require": {
+        "php": ">=7.4.0",
+        "laravel/framework": "^8.0.4",
+        "alibabacloud/sdk": "^1.8",
+        "aliyuncs/oss-sdk-php": "~2.0",
+        "encore/laravel-admin": "1.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.3.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dang",
+            "email": "yofengge@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Aoeng\\Laravel\\Admin\\Filesystem\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Aoeng\\Laravel\\Admin\\Filesystem\\Test\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Aoeng\\Laravel\\Admin\\Filesystem\\FilesystemServiceProvider"
+            ]
+        }
+    }
+}
