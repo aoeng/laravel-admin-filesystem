@@ -26,12 +26,22 @@
             // 获取name值后将input清空，防止叠加
             $('input[name=' + this.input_name + ']').val('');
 
-            $('#' + _this.input_name + 'MediaType').select2({
-                language: 'zh-CN',
-                placeholder: '类型',
-                allowClear: true,
-                minimumInputLength: 0
-            });
+
+
+            if(_this.type===''){
+                $('#' + _this.input_name + 'MediaType').select2({
+                    language: 'zh-CN',
+                    placeholder: '类型',
+                    allowClear: true,
+                    minimumInputLength: 0
+                });
+                $("body").delegate('#' + _this.input_name + 'MediaType', 'change', function (e) {
+                    console.log($(this).val(), e.target.value)
+                     _this.type=$(this).val()
+                });
+            }else {
+                $('.' + _this.input_name + 'MediaType').hide()
+            }
 
             $('#' + _this.input_name + 'MediaSelectorModalLabel').text('请选择' + _this.input_label);
 
@@ -140,11 +150,14 @@
                 sortable: true,                     //是否启用排序
                 sortOrder: "desc",                   //排序方式
                 queryParams: function (params) {
+                    console.log(params)
                     return {
                         _token: LA.token,
-                        name: params.name,
+                        name: $('#' + _this.input_name + 'Keyword').val(),
                         page: params.page,  //页码
                         pageSize: params.pageSize,   //页面大小
+                        sort: params.sort,   //页面大小
+                        order: params.order,   //页面大小
                         type: _this.type,
                     }
                 },
@@ -187,7 +200,7 @@
                             return html
                         }
                     },
-                    {field: 'name', title: '名称', visible: false},
+                    {field: 'name', title: '名称'},
                     {field: 'type', title: '类型'},
                     {field: 'file_size', title: '大小'},
                     {field: 'ext', title: '后缀', width: '40%'},

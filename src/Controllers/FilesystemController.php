@@ -110,6 +110,11 @@ class FilesystemController extends Controller
             ->when($request->filled('name'), function ($query) use ($request) {
                 $query->where('name', 'like', "%{$request->input('disk')}%");
             })
+            ->when($request->filled('sort'), function ($query) use ($request) {
+                $query->orderBy($request->input('sort'), $request->input('order', 'desc'));
+            }, function ($query) {
+                $query->orderByDesc('created_at');
+            })
             ->paginate();
     }
 

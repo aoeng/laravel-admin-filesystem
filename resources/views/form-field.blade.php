@@ -57,12 +57,12 @@
 
                         <label class="control-label col-sm-1">关键字</label>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control" name="{{$name}}Keyword" placeholder="名称/后缀">
+                            <input type="text" class="form-control" id="{{$name}}Keyword" name="{{$name}}Keyword" placeholder="名称/后缀">
                         </div>
 
-                        <label class="control-label col-sm-1">类型</label>
-                        <div class="col-sm-3">
-                            <select class="form-control" id="{{$name}}MediaType" name="type" tabindex="-1"
+                        <label class="{{$name}}MediaType control-label col-sm-1">类型</label>
+                        <div class="{{$name}}MediaType col-sm-3">
+                            <select class="form-control" id="{{$name}}MediaType" name="{{$name}}type" tabindex="-1"
                                     aria-hidden="true" style="width: 100%">
                                 <option></option>
                                 @foreach($selectList as $option => $label)
