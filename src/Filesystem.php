@@ -22,6 +22,6 @@ class Filesystem extends Extension
     {
         parent::import();
 
-        self::createMenu('文件管理', 'media', 'fa-file');
+        self::createMenu('文件管理', 'filesystem', 'fa-file');
     }
 }
