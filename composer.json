@@ -5,7 +5,7 @@
     "require": {
         "php": ">=7.4.0",
         "laravel/framework": "^8.0.4",
-        "alibabacloud/sdk": "^1.8",
+        "alibabacloud/sdk": "<=1.8.873 | >1.8.894",
         "aliyuncs/oss-sdk-php": "~2.0",
         "encore/laravel-admin": "1.*"
     },

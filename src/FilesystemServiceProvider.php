@@ -24,6 +24,9 @@ class FilesystemServiceProvider extends ServiceProvider
 {
     public function boot(Filesystem $extension)
     {
+        if (!Filesystem::boot()) {
+            return;
+        }
 
         if ($views = $extension->views()) {
             $this->loadViewsFrom($views, 'laravel-admin-filesystem');
