@@ -86,11 +86,12 @@ class FilesystemFormField extends Field
         $name = $this->column;
         $type = $this->type;
         $sortable = $this->sortable;
+        $disk = config('filesystems.default');
 
         $this->script = "
             if(!window.Demo{$name}){
                 window.Demo{$name} = new MediaSelector(
-                   '{$label}','{$name}','{$type}','{$this->multiple}','{$sortable}'
+                   '{$label}','{$name}','{$type}','{$this->multiple}','{$sortable}','{$disk}'
                 );
                 Demo{$name}.run();
             }

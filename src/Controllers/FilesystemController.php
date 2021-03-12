@@ -71,7 +71,7 @@ class FilesystemController extends Controller
         $filesystem->name = $request->input('name');
         $filesystem->type = $request->input('type');
         $filesystem->ext = $request->input('ext');
-        $filesystem->disk = 'oss';
+        $filesystem->disk = config('filesystems.default');
         $filesystem->size = $request->input('size');
         $filesystem->path = $request->input('path');
         $filesystem->save();

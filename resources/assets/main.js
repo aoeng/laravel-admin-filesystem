@@ -1,6 +1,6 @@
 (function () {
 
-        function MediaSelector(label, name, type, multiple, sortable) {
+        function MediaSelector(label, name, type, multiple, sortable, disk) {
 
             this.input_label = label;
 
@@ -12,7 +12,10 @@
 
             this.sortables = sortable;
 
+            this.disk = disk
+
             this.ossClient = null
+
 
         }
 
@@ -27,8 +30,7 @@
             $('input[name=' + this.input_name + ']').val('');
 
 
-
-            if(_this.type===''){
+            if (_this.type === '') {
                 $('#' + _this.input_name + 'MediaType').select2({
                     language: 'zh-CN',
                     placeholder: '类型',
@@ -37,9 +39,9 @@
                 });
                 $("body").delegate('#' + _this.input_name + 'MediaType', 'change', function (e) {
                     console.log($(this).val(), e.target.value)
-                     _this.type=$(this).val()
+                    _this.type = $(this).val()
                 });
-            }else {
+            } else {
                 $('.' + _this.input_name + 'MediaType').hide()
             }
 
@@ -50,7 +52,7 @@
                 for (var i in arr) {
                     var suffix = arr[i].substring(arr[i].lastIndexOf(".") + 1);
                     var fileType = _this.getFileType(suffix);
-                    _this.fileDisplay({data: {path: arr[i],url:arr[i], type: fileType}})
+                    _this.fileDisplay({data: {path: arr[i], url: arr[i], type: fileType}})
                 }
             }
         };
@@ -315,13 +317,13 @@
                 var suffix = field.name.substring(field.name.lastIndexOf(".") + 1);
 
                 var fileType = _this.getFileType(suffix);
-                console.log(fileType,_this.type)
+                console.log(fileType, _this.type)
                 if (_this.type !== '' && fileType !== _this.type) {
                     toastr.error('媒体文件有误：' + field.name, 400);
                     return false;
                 }
 
-                if (fileType !== 'image') {
+                if (_this.disk === 'oss' && fileType !== 'image') {
                     if (_this.ossClient === null) {
                         _this.initOssClient()
                     }
@@ -458,7 +460,7 @@
             } else if (data.data.type === 'text') {
                 html += '<i class="fa fa-file-text-o fa-fw img-responsive media-preview-fa"></i>';
                 html += '<video src="' + root_path + '" style="display: none"></video>';
-            } else  {
+            } else {
                 html += '<i class="fa fa-file fa-fw img-responsive media-preview-fa"></i>';
                 html += '<video src="' + root_path + '" style="display: none"></video>';
             }
