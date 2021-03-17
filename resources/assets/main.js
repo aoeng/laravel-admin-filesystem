@@ -311,9 +311,10 @@
 
             $.each(files, function (i, field) {
 
-                formData.append("file", field);
+                formData.append("file[]", field);
                 formData.append("type", _this.type);
                 formData.append("_token", LA.token);
+                formData.append("is_ajax", true);
                 var suffix = field.name.substring(field.name.lastIndexOf(".") + 1);
 
                 var fileType = _this.getFileType(suffix);
@@ -384,7 +385,7 @@
                             return xhr
                         },
                         success: function (data) {
-                            if (data['code'] == 200) {
+                            if (data['code'] === 0) {
                                 if (whereToUpload == 'form') {
                                     _this.fileDisplay(data);
                                     $('#' + _this.input_name + 'PercentForm').text('');

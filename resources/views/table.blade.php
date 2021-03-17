@@ -256,7 +256,7 @@
                         <i class="fa fa-upload"></i>&nbsp;&nbsp;{{ trans('admin.upload') }}
                         <form action="{{ route('filesystem-upload') }}" method="post" class="file-upload-form"
                               enctype="multipart/form-data" pjax-container>
-                            <input type="file" name="files[]" class="hidden file-upload" multiple>
+                            <input type="file" name="file[]" class="hidden file-upload" multiple>
                             {{ csrf_field() }}
                         </form>
                     </label>

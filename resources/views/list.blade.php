@@ -242,11 +242,11 @@
                         </a>
                     </div>
                     <!-- /.btn-group -->
-                    <label class="btn btn-default btn"{{-- data-toggle="modal" data-target="#uploadModal"--}}>
+                    <label class="btn btn-default btn"{{-- data-toggle="modal" data-target="#uploadModal"--}} >
                         <i class="fa fa-upload"></i>&nbsp;&nbsp;{{ trans('admin.upload') }}
                         <form action="{{route('filesystem-upload')}}" method="post" class="file-upload-form"
                               enctype="multipart/form-data" pjax-container>
-                            <input type="file" name="files[]" class="hidden file-upload" multiple>
+                            <input type="file" name="file[]" class="hidden file-upload" multiple>
                             {{ csrf_field() }}
                         </form>
                     </label>

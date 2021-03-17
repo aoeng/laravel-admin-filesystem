@@ -38,6 +38,7 @@ class FilesystemController extends Controller
                 ->when($request->filled('name'), function ($query) use ($request) {
                     $query->where('name', 'like', "%{$request->input('disk')}%");
                 })
+                ->orderByDesc('created_at')
                 ->paginate();
 
 
@@ -48,7 +49,6 @@ class FilesystemController extends Controller
 
     public function upload(Request $request)
     {
-
         foreach ($request->file('file') as $file) {
             $filesystem = new Filesystem();
 
@@ -61,6 +61,9 @@ class FilesystemController extends Controller
             $filesystem->save();
         }
 
+        if ($request->filled('is_ajax')) {
+            return $this->success();
+        }
         return back();
     }
 
