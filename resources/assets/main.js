@@ -38,7 +38,6 @@
                     minimumInputLength: 0
                 });
                 $("body").delegate('#' + _this.input_name + 'MediaType', 'change', function (e) {
-                    console.log($(this).val(), e.target.value)
                     _this.type = $(this).val()
                 });
             } else {
@@ -152,7 +151,6 @@
                 sortable: true,                     //是否启用排序
                 sortOrder: "desc",                   //排序方式
                 queryParams: function (params) {
-                    console.log(params)
                     return {
                         _token: LA.token,
                         name: $('#' + _this.input_name + 'Keyword').val(),
@@ -318,7 +316,6 @@
                 var suffix = field.name.substring(field.name.lastIndexOf(".") + 1);
 
                 var fileType = _this.getFileType(suffix);
-                console.log(fileType, _this.type)
                 if (_this.type !== '' && fileType !== _this.type) {
                     toastr.error('媒体文件有误：' + field.name, 400);
                     return false;

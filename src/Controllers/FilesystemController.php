@@ -53,8 +53,8 @@ class FilesystemController extends Controller
             $filesystem = new Filesystem();
 
             $filesystem->name = $file->getClientOriginalName();
-            $filesystem->type = Str::before($file->getClientMimeType(), '/');
             $filesystem->ext = $file->getClientOriginalExtension();
+            $filesystem->type = $this->getType($filesystem->ext);
             $filesystem->disk = config('filesystems.default');
             $filesystem->size = $file->getSize();
             $filesystem->path = $file->store('files/' . $filesystem->type . '/' . date('Y/m/d'));
@@ -65,6 +65,16 @@ class FilesystemController extends Controller
             return $this->success();
         }
         return back();
+    }
+
+    public function getType($ext)
+    {
+        foreach (Filesystem::$fileTypes as $key => $fileType) {
+            if (in_array($ext, explode('|', $fileType))) {
+                return $key;
+            }
+            return 'other';
+        }
     }
 
     public function save(Request $request)

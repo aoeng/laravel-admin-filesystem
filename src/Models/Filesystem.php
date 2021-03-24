@@ -18,11 +18,11 @@ use Illuminate\Support\Facades\Storage;
  */
 class Filesystem extends Model
 {
-    use HasFactory, SoftDeletes,DefaultDatetimeFormat;
+    use HasFactory, SoftDeletes, DefaultDatetimeFormat;
 
     protected $appends = ['url', 'file_size'];
 
-    protected $fileTypes = [
+    public static $fileTypes = [
         'image' => 'png|jpg|jpeg|tmp|gif',
         'word'  => 'doc|docx',
         'ppt'   => 'ppt|pptx',
@@ -32,6 +32,7 @@ class Filesystem extends Model
         'txt'   => 'txt|pac|log|md',
         'audio' => 'mp3|wav|flac|3pg|aa|aac|ape|au|m4a|mpc|ogg',
         'video' => 'mkv|rmvb|flv|mp4|avi|wmv|rm|asf|mpeg',
+        'apk'   => 'apk',
     ];
 
 
@@ -46,7 +47,7 @@ class Filesystem extends Model
 
     public function getFileSizeAttribute()
     {
-        $size= $this->size;
+        $size = $this->size;
         $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
 
         for ($i = 0; $size > 1024; $i++) {
