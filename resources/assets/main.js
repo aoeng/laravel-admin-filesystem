@@ -16,7 +16,17 @@
 
             this.ossClient = null
 
+            disk = JSON.parse(disk)
 
+            if (disk.url) {
+                this.url = disk.url;
+            } else if (disk.cdnDomain) {
+                this.url = (disk.ssl ? 'https://' : 'http://') + disk.cdnDomain;
+            } else if (disk.endpoint) {
+                this.url = (disk.ssl ? 'https://' : 'http://') + disk.endpoint;
+            } else {
+                this.url = '';
+            }
         }
 
         // 初始化
@@ -24,7 +34,7 @@
 
             var _this = this;
 
-            var value = $('input[name=' + this.input_name + ']').val();
+            var value = $('input[name=' + this.input_name + ']').val() == '' ? null : JSON.parse($('input[name=' + this.input_name + ']').val());
 
             // 获取name值后将input清空，防止叠加
             $('input[name=' + this.input_name + ']').val('');
@@ -47,11 +57,10 @@
             $('#' + _this.input_name + 'MediaSelectorModalLabel').text('请选择' + _this.input_label);
 
             if (value) {
-                var arr = JSON.parse(value);
-                for (var i in arr) {
-                    var suffix = arr[i].substring(arr[i].lastIndexOf(".") + 1);
+                for (var i in value) {
+                    var suffix = value[i].substring(value[i].lastIndexOf(".") + 1);
                     var fileType = _this.getFileType(suffix);
-                    _this.fileDisplay({data: {path: arr[i], url: arr[i], type: fileType}})
+                    _this.fileDisplay({data: {path: value[i], url: this.url + '/' + value[i], type: fileType}})
                 }
             }
         };
@@ -306,6 +315,7 @@
 
             var files = $(data)[0].files;
 
+            var count = files.length
 
             $.each(files, function (i, field) {
 
@@ -358,6 +368,9 @@
                                 }
 
                                 toastr.success('上传成功');
+                                if (i == count - 1 && whereToUpload == 'modal') {
+                                    $('#' + _this.input_name + 'MediaTable').bootstrapTable('refresh').bootstrapTable();
+                                }
                             }
                         });
                     })
@@ -394,6 +407,10 @@
                             } else {
                                 toastr.error(data['message']);
                             }
+
+                            if (i == count - 1 && whereToUpload == 'modal') {
+                                $('#' + _this.input_name + 'MediaTable').bootstrapTable('refresh').bootstrapTable();
+                            }
                         },
                         error: function (XmlHttpRequest, textStatus, errorThrown) {
                             if (whereToUpload == 'form')
@@ -410,11 +427,8 @@
                 formData.delete('type');
                 formData.delete('move');
                 formData.delete('_token');
-                if (i == files.length - 1 && whereToUpload == 'modal')
-                    // 延迟刷新
-                    setTimeout(function () {
-                        $('#' + _this.input_name + 'MediaTable').bootstrapTable('refresh').bootstrapTable();
-                    }, 1000);
+
+
             });
 
         };
@@ -431,14 +445,17 @@
 
             var file_name = data.data.name;
 
-            if (!_this.multiple)
+            if (!_this.multiple) {
                 $('.' + _this.input_name).val(path);
-            else if (_this.multiple)
-                $('.' + _this.input_name).val() ? $('.' + _this.input_name).val($('.' + _this.input_name).val() + ',' + path) : $('.' + _this.input_name).val(path);
+            } else {
+                var arr = $('.' + _this.input_name).val() == '' ? [] : JSON.parse($('.' + _this.input_name).val());
+                arr.push(path);
+                $('.' + _this.input_name).val(JSON.stringify(arr))
+            }
 
             var html = "";
             html += '<li>';
-            html += '<a href="' + root_path + '" target="_blank" class="thumbnail" title="' + file_name + '">';
+            html += '<a href="' + root_path + '"  data-path="' + path + '" target="_blank" class="thumbnail" title="' + file_name + '">';
             if (data.data.type === 'image')
                 html += '<img class="img-responsive" src="' + root_path + '">';
             else if (data.data.type === 'video')
@@ -493,29 +510,16 @@
 
             var _this = this;
 
-            var src = '';
+            var arr = [];
 
             // 循环获取属性下面的img/video src 值
-            $.each($('#' + _this.input_name + 'MediaDisplay li a'), function (index, content) {
-
-                $(content).html().replace(/<img.*?src="(.*?)"[^>]*>/ig, function (a, b) {
-                    src += b + ',';
+            $.each($('#' + _this.input_name + 'MediaDisplay li '), function (index, content) {
+                $(content).html().replace(/<a.*?data-path="(.*?)"[^>]*>/ig, function (a, b) {
+                    arr.push(b)
                 });
-
-                $(content).html().replace(/<video.*?src="(.*?)"[^>]*>/ig, function (a, b) {
-                    src += b + ',';
-                });
-
-                $(content).html().replace(/<a.*?href="(.*?)"[^>]*>/ig, function (a, b) {
-                    src += b + ',';
-                });
-
             });
-            var reg = new RegExp(_this.root_path, "g");//g,表示全部替换。
 
-            var srcs = src.replace(reg, "");
-
-            $('.' + _this.input_name).val(srcs.substring(0, srcs.length - 1));
+            $('.' + _this.input_name).val(JSON.stringify(arr));
 
         };
 
