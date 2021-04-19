@@ -33,12 +33,7 @@
         MediaSelector.prototype.init = function () {
 
             var _this = this;
-
-            var value = $('input[name=' + this.input_name + ']').val() == '' ? null : JSON.parse($('input[name=' + this.input_name + ']').val());
-
-            // 获取name值后将input清空，防止叠加
-            $('input[name=' + this.input_name + ']').val('');
-
+            console.log(this.input_name, $('input[name=' + this.input_name + ']').val())
 
             if (_this.type === '') {
                 $('#' + _this.input_name + 'MediaType').select2({
@@ -55,14 +50,25 @@
             }
 
             $('#' + _this.input_name + 'MediaSelectorModalLabel').text('请选择' + _this.input_label);
+            if (_this.multiple) {
+                var value = $('input[name=' + this.input_name + ']').val() == '' ? null : JSON.parse($('input[name=' + this.input_name + ']').val());
+                if (value) {
+                    for (var i in value) {
+                        var suffix = value[i].substring(value[i].lastIndexOf(".") + 1);
+                        var fileType = _this.getFileType(suffix);
+                        _this.fileDisplay({data: {path: value[i], url: this.url + '/' + value[i], type: fileType}})
+                    }
+                }
 
-            if (value) {
-                for (var i in value) {
-                    var suffix = value[i].substring(value[i].lastIndexOf(".") + 1);
+            } else {
+                var value = $('input[name=' + this.input_name + ']').val();
+                if (value != '') {
+                    var suffix = value.substring(value.lastIndexOf(".") + 1);
                     var fileType = _this.getFileType(suffix);
-                    _this.fileDisplay({data: {path: value[i], url: this.url + '/' + value[i], type: fileType}})
+                    _this.fileDisplay({data: {path: value, url: this.url + '/' + value, type: fileType}})
                 }
             }
+
         };
 
         // 初始化点击事件
@@ -519,7 +525,12 @@
                 });
             });
 
-            $('.' + _this.input_name).val(JSON.stringify(arr));
+            if (_this.multiple) {
+                $('.' + _this.input_name).val(JSON.stringify(arr));
+            } else {
+                $('.' + _this.input_name).val(arr[0] ?? '');
+            }
+
 
         };
 
