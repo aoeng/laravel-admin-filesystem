@@ -47,7 +47,7 @@
             $('#' + _this.input_name + 'MediaSelectorModalLabel').text('请选择' + _this.input_label);
 
             if (value) {
-                var arr = value.split(',');
+                var arr = JSON.parse(value);
                 for (var i in arr) {
                     var suffix = arr[i].substring(arr[i].lastIndexOf(".") + 1);
                     var fileType = _this.getFileType(suffix);

@@ -86,7 +86,9 @@ class FilesystemFormField extends Field
         $name = $this->column;
         $type = $this->type;
         $sortable = $this->sortable;
-        $disk = config('filesystems.default');
+        $diskName = config('filesystems.default');
+
+        $disk = json_encode(config('filesystems.disks.' . $diskName, []));
 
         $this->script = "
             if(!window.Demo{$name}){
