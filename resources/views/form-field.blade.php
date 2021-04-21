@@ -13,11 +13,11 @@
 
             <span class="input-group-btn upload-and-choose">
 
-                <label class="btn btn-danger heights upload">
+             {{--   <label class="btn btn-danger heights upload">
                     <i class="fa fa-upload"></i> 上传
                     <span id="{{$name}}PercentForm"></span>
                     <input type="file" @if($multiple) multiple @endif id="{{$name}}MediaUploadForm">
-                </label>
+                </label>--}}
 
                 <span class="btn btn-primary heights" data-toggle="modal" data-target="#{{$name}}MediaSelectorModal">
                     <i class="fa fa-list"></i> 选择

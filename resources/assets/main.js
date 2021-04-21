@@ -33,7 +33,6 @@
         MediaSelector.prototype.init = function () {
 
             var _this = this;
-            console.log(this.input_name, $('input[name=' + this.input_name + ']').val())
 
             if (_this.type === '') {
                 $('#' + _this.input_name + 'MediaType').select2({
@@ -215,7 +214,12 @@
                             return html
                         }
                     },
-                    {field: 'name', title: '名称'},
+                    {
+                        field: 'name', title: '名称', width: '50%',
+                        formatter: function (value, row, index) {
+                            return ` <div style="width: 200px;overflow-wrap: break-word">${value}</div>`;
+                        }
+                    },
                     {field: 'type', title: '类型'},
                     {field: 'file_size', title: '大小'},
                     {field: 'ext', title: '后缀', width: '40%'},
@@ -408,7 +412,6 @@
                                 } else if (whereToUpload == 'modal') {
                                     $('#' + _this.input_name + 'PercentModal').text('');
                                 }
-
                                 toastr.success('上传成功');
                             } else {
                                 toastr.error(data['message']);
@@ -429,12 +432,10 @@
                 }
 
                 // 删除formData，防止重复累加
-                formData.delete('file');
+                formData.delete('file[]');
                 formData.delete('type');
                 formData.delete('move');
                 formData.delete('_token');
-
-
             });
 
         };
