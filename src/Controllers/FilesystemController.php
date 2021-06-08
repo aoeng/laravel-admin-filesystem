@@ -57,7 +57,7 @@ class FilesystemController extends Controller
             $filesystem->type = $this->getType($filesystem->ext);
             $filesystem->disk = config('filesystems.default');
             $filesystem->size = $file->getSize();
-            $filesystem->path = $file->store('files/' . $filesystem->type . '/' . date('Y/m/d'));
+            $filesystem->path = $file->storeAs('files/' . $filesystem->type . '/' . date('Y/m/d'), $filesystem->name.'.'.$filesystem->ext);
             $filesystem->save();
         }
 

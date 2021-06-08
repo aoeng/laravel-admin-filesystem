@@ -12,12 +12,13 @@
 
             this.sortables = sortable;
 
-            this.disk = disk
+
 
             this.ossClient = null
 
             disk = JSON.parse(disk)
 
+            this.disk = disk
             if (disk.url) {
                 this.url = disk.url;
             } else if (disk.cdnDomain) {
@@ -341,7 +342,8 @@
                     return false;
                 }
 
-                if (_this.disk === 'oss' && fileType !== 'image') {
+                console.log(_this.disk.driver,_this.disk.driver == 'oss')
+                if (_this.disk.driver === 'oss' && fileType !== 'image') {
                     if (_this.ossClient === null) {
                         _this.initOssClient()
                     }
