@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 /**
  * @property false|mixed|string path
@@ -38,8 +39,17 @@ class Filesystem extends Model
 
     public function getUrlAttribute()
     {
+
+        if (empty($this->path)) {
+            return '';
+        }
+
         try {
-            return empty($this->path) ? '' : Storage::disk($this->disk)->url($this->path);
+            if (Str::startsWith($this->path, 'http')) {
+                return $this->path;
+            }
+
+            return Storage::disk($this->disk)->url($this->path);
         } catch (\Exception $exception) {
             return '';
         }
