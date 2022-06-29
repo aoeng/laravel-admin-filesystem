@@ -138,7 +138,7 @@ class FilesystemController extends Controller
 
     public function getSts(Request $request)
     {
-        AlibabaCloud::accessKeyClient(config('filesystems.disks.oss.access_id'), config('filesystems.disks.oss.access_key'))
+        AlibabaCloud::accessKeyClient(config('filesystems.disks.oss.access_key'), config('filesystems.disks.oss.secret_key'))
             ->regionId(config('filesystems.disks.oss.region_id'))
             ->verify(false)
             ->asDefaultClient();
