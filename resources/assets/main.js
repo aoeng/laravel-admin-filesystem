@@ -13,7 +13,6 @@
             this.sortables = sortable;
 
 
-
             this.ossClient = null
 
             disk = JSON.parse(disk)
@@ -156,7 +155,7 @@
             var _this = this;
 
             $('#' + _this.input_name + 'MediaTable').bootstrapTable('destroy').bootstrapTable({
-                url: '/admin/filesystem/field',         //请求后台的URL（*）
+                url: window.adminUrl.field,         //请求后台的URL（*）
                 method: 'get',                      //请求方式（*）
                 toolbar: '#' + _this.input_name + 'Toolbar',                //工具按钮用哪个容器
                 dataField: 'data',
@@ -290,7 +289,7 @@
         MediaSelector.prototype.initOssClient = function () {
             var _this = this;
             $.ajax({
-                url: "/admin/filesystem/sts",
+                url: window.adminUrl.sts,
                 type: "get",
                 datatype: "json",
                 async: false,
@@ -342,7 +341,7 @@
                     return false;
                 }
 
-                console.log(_this.disk.driver,_this.disk.driver == 'oss')
+                console.log(_this.disk.driver, _this.disk.driver == 'oss')
                 if (_this.disk.driver === 'oss' && fileType !== 'image') {
                     if (_this.ossClient === null) {
                         _this.initOssClient()
@@ -359,7 +358,7 @@
                         }
                     }).then((result) => {
                         $.ajax({
-                            url: "/admin/filesystem/save",
+                            url: window.adminUrl.save,
                             type: "post",
                             datatype: "json",
                             async: false,
@@ -389,7 +388,7 @@
                 } else {
                     $.ajax({
                         type: 'post', // 提交方式 get/post
-                        url: '/admin/filesystem/upload', // 需要提交的 url
+                        url: window.adminUrl.upload, // 需要提交的 url
                         data: formData,
                         processData: false,
                         contentType: false,

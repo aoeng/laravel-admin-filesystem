@@ -90,6 +90,17 @@ class FilesystemFormField extends Field
 
         $disk = json_encode(config('filesystems.disks.' . $diskName, []));
 
+        $adminUrl = json_encode([
+            'index'    => route('filesystem-index'),
+            'upload'   => route('filesystem-upload'),
+            'delete'   => route('filesystem-delete'),
+            'download' => route('filesystem-download'),
+            'rename'   => route('filesystem-rename'),
+            'field'    => route('filesystem-field'),
+            'sts'      => route('filesystem-sts'),
+            'save'     => route('filesystem-save'),
+        ]);
+
         $this->script = "
             if(!window.Demo{$name}){
                 window.Demo{$name} = new MediaSelector(
@@ -97,6 +108,7 @@ class FilesystemFormField extends Field
                 );
                 Demo{$name}.run();
             }
+            window.adminUrl = JSON.parse('{$adminUrl}');
             Demo{$name}.init();
             Demo{$name}.getMediaList();
             Demo{$name}.sortable();
