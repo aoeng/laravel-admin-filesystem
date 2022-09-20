@@ -6,12 +6,12 @@ namespace Aoeng\Laravel\Admin\Filesystem;
 
 use Aoeng\Laravel\Admin\Filesystem\Fields\ApkField;
 use Aoeng\Laravel\Admin\Filesystem\Fields\AudioField;
-use Aoeng\Laravel\Admin\Filesystem\Fields\FileField;
-use Aoeng\Laravel\Admin\Filesystem\Fields\ImageField;
+use Aoeng\Laravel\Admin\Filesystem\Fields\FileBoxField;
+use Aoeng\Laravel\Admin\Filesystem\Fields\ImageBoxField;
 use Aoeng\Laravel\Admin\Filesystem\Fields\MultipleApkField;
 use Aoeng\Laravel\Admin\Filesystem\Fields\MultipleAudioField;
-use Aoeng\Laravel\Admin\Filesystem\Fields\MultipleFileField;
-use Aoeng\Laravel\Admin\Filesystem\Fields\MultipleImageField;
+use Aoeng\Laravel\Admin\Filesystem\Fields\MultipleFileBoxField;
+use Aoeng\Laravel\Admin\Filesystem\Fields\MultipleImageBoxField;
 use Aoeng\Laravel\Admin\Filesystem\Fields\MultipleVideoField;
 use Aoeng\Laravel\Admin\Filesystem\Fields\MultipleZipField;
 use Aoeng\Laravel\Admin\Filesystem\Fields\VideoField;
@@ -42,10 +42,10 @@ class FilesystemServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         Admin::booting(function () {
-            Form::extend('image', ImageField::class);
-            Form::extend('multipleImage', MultipleImageField::class);
-            Form::extend('file', FileField::class);
-            Form::extend('multipleFile', MultipleFileField::class);
+            Form::extend('image', ImageBoxField::class);
+            Form::extend('multipleImage', MultipleImageBoxField::class);
+            Form::extend('fileBox', FileBoxField::class);
+            Form::extend('multipleFileBox', MultipleFileBoxField::class);
             Form::extend('video', VideoField::class);
             Form::extend('multipleVideo', MultipleVideoField::class);
             Form::extend('audio', AudioField::class);
